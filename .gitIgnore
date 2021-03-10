@@ -1,0 +1,6 @@
+# Archivos a omitir del repositorio
+
+02 - Listas ligadas.vcxproj
+02 - Listas ligadas.vcxproj.*
+
+Debug/

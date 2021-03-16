@@ -8,11 +8,13 @@ struct Nodo
 	struct Nodo *sig;
 };
 
+typedef struct Nodo nodo;
+
 
 int main()
 {
 	int a;
-	struct Nodo caja;
+	nodo caja;
 	caja.info = 'c';
 	printf("el tamaño del struct Nodo es: %d bytes\n", sizeof( struct Nodo ) );
 	system("pause");

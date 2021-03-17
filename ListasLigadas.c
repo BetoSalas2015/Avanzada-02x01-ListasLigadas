@@ -29,6 +29,13 @@ void insert(char dato)
 	}
 	else
 	{								// No es el primer nodo.
+		nodo *ultimo = raiz;		// apuntamos ultimo al primer nodo
+		while( ultimo->sig != NULL )	// Repetir MIENTRAS no sea el ultimo nodo
+		{
+			ultimo = ultimo->sig;
+		}
+		nuevo -> sig = NULL;		// Volvemos el apuntador nuevo el ultimo nodo
+		ultimo->sig = nuevo;
 
 	}
 }

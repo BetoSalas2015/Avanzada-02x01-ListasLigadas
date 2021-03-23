@@ -40,7 +40,7 @@ void insert(char dato)
 	}
 }
 
-void insertn(char dato, int posicion)
+void insertn(char dato, int pos = 3)
 {
 	nodo *nuevo = NULL;				// creamos un apuntador auxiliar para la nueva area de memoria
 	nuevo = (nodo *) malloc( sizeof( nodo ) );		// creamos un nodo nuevo
@@ -50,10 +50,10 @@ void insertn(char dato, int posicion)
 		return;						//  Se acabó!!
 	}
 	nuevo->info = dato;				// Preservamos la información
-	if(raiz == NULL)				// Es el primer nodo de la lista
+	if(pos == 1)				// Es el primer nodo de la lista
 	{
-		raiz = nuevo;				// apuntamos raiz al nuevo nodo creado
-		nuevo->sig = NULL;			// Lo volvemos el ultimo nodo de la lista
+		nuevo->sig = raiz;				//  nuevo se coloca en el primer lugar de la lista
+		raiz = nuevo;
 	}
 	else
 	{								// No es el primer nodo.

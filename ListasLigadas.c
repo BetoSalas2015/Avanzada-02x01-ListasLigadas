@@ -40,8 +40,9 @@ void insert(char dato)
 	}
 }
 
-void insertn(char dato, int pos = 3)
+void insertn(char dato, int pos)
 {
+	int cont;
 	nodo *nuevo = NULL;				// creamos un apuntador auxiliar para la nueva area de memoria
 	nuevo = (nodo *) malloc( sizeof( nodo ) );		// creamos un nodo nuevo
 	if(nuevo == NULL)				// Error: no hay memoria disponible
@@ -50,21 +51,31 @@ void insertn(char dato, int pos = 3)
 		return;						//  Se acabó!!
 	}
 	nuevo->info = dato;				// Preservamos la información
-	if(pos == 1)				// Es el primer nodo de la lista
+	if(raiz == NULL)				// Si la lista está vacía entonces tendre que insertar en la primera posición
 	{
-		nuevo->sig = raiz;				//  nuevo se coloca en el primer lugar de la lista
-		raiz = nuevo;
+		raiz = nuevo;				// apuntamos raiz al nuevo nodo creado
+		nuevo->sig = NULL;			// Lo volvemos el ultimo nodo de la lista
+		return;						// Se acabó!
 	}
-	else
+	if(pos == 1)				// Lo quiero insertar en la primera posición?
+	{
+		nuevo->sig = raiz;				//  el primero se vuelve el segundo lugar de la lista
+		raiz = nuevo;					//  raiz ahora apunta al nuenvo primer nodo
+		return;							//  se acabó!
+	}
+	else							// PAra el resto de los casos...
 	{								// No es el primer nodo.
-		nodo *ultimo = raiz;		// apuntamos ultimo al primer nodo
-		while( ultimo->sig != NULL )	// Repetir MIENTRAS no sea el ultimo nodo
+		
+		nodo *anterior = raiz;		// apuntamos ultimo al primer nodo
+		cont = 1;					// Contamos el primer nodo de la lista
+		while( (cont < pos - 1) && (anterior->sig != NULL) )  	// Repetir MIENTRAS no sea el ultimo nodo
 		{
-			ultimo = ultimo->sig;
+			anterior = anterior->sig;
+			cont++;
 		}
-		nuevo -> sig = NULL;		// Volvemos el apuntador nuevo el ultimo nodo
-		ultimo->sig = nuevo;
-
+		nuevo -> sig = anterior->sig;		// Volvemos el apuntador nuevo el ultimo nodo
+		anterior->sig = nuevo;
+		return;							// Se acabó!
 	}
 }
 void insert1(char dato)
@@ -81,6 +92,12 @@ void insert1(char dato)
 	raiz = nuevo;				// apuntamos raiz al nuevo nodo creado
 }
 
+void remueve1() {}
+
+void remueve() {}
+
+void remueven(int pos) {}
+
 void imprimeLista()
 {
 	nodo *recorre = raiz;		// apuntamos ultimo al primer nodo
@@ -95,11 +112,14 @@ void imprimeLista()
 
 int main()
 {
-	insert1('a');
-	insert1('b');
-	insert1('c');
-	insert1('d');
-	insert1('e');
+	insert('a');
+	insert('b');
+	insert('c');
+	insert('d');
+	insert('e');
+	insertn('f', 2);
+	insert1('g');
+	insertn('h',20);
 
 	imprimeLista();
 

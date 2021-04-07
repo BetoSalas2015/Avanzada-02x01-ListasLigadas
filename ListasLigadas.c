@@ -139,6 +139,7 @@ char remueve()
 char remueven(int pos) 
 {
 	nodo *anterior, *elimina;
+	int cont;
 	char dato;
 	anterior = elimina = raiz;
 	if(raiz == NULL)		// No hay nodos en la lista
@@ -146,26 +147,28 @@ char remueven(int pos)
 		printf("No hay nada que elliminar");
 		return;				//  Se acabó!
 	}
-	if(elimina->sig == NULL)
+	if(pos == 1)
 	{
 		dato = elimina->info;	//  Preservo el dato del nodo a eliminar
 		raiz = raiz->sig;			//  Se vuelve lista vacía
 		free(elimina);			// Liberamos memoria
 		return dato;
 	}
-	elimina = elimina->sig;
-	while( elimina->sig != NULL )
+	elimina = elimina->sig;		//  Posiciono elimina en el segundo nodo 
+	cont = 2;
+	while( elimina->sig != NULL && cont != pos )
 	{
 		elimina = elimina->sig;		//  avanzo elimina al siguiente nodo
 		anterior = anterior->sig;	//  avanzo anterior al siguiente nodo
+		cont++;
 	}
 	dato = elimina->info;	//  Preservo el dato del nodo a eliminar
-	anterior->sig = NULL;			//  Se vuelve el ultimo nodo
+	anterior->sig = elimina->sig;			//  Se vuelve el ultimo nodo
 	free(elimina);			// Liberamos memoria
 	return dato;
 }
 
-void imprimeLista()
+void imprimeLista(nodo *raiz)
 {
 	nodo *recorre = raiz;		// apuntamos ultimo al primer nodo
 	while( !recorre == NULL )	// Repetir MIENTRAS no sea null
@@ -176,6 +179,12 @@ void imprimeLista()
 	printf("\n");
 }
 
+void invierte() 
+{
+	nodo *raiz2 = NULL;
+	//  inviertan la lista
+	imprimeLista(raiz2);
+}
 
 int main()
 {
@@ -184,12 +193,12 @@ int main()
 	insert('c');
 	insert('d');
 	insert('e');
-	imprimeLista();
+	imprimeLista(raiz);
 
-	remueve1();
-	remueve1();
-	imprimeLista();
+	remueven(5);
+	imprimeLista(raiz);
 
+	invierte();
 	system("pause");
 	return 0;
 }

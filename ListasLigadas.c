@@ -39,7 +39,6 @@ void insert(char dato)
 
 	}
 }
-
 void insertn(char dato, int pos)
 {
 	int cont;
@@ -92,7 +91,21 @@ void insert1(char dato)
 	raiz = nuevo;				// apuntamos raiz al nuevo nodo creado
 }
 
-char remueve1() {}
+char remueve1() 
+{
+	nodo *elimina;
+	char dato;
+	elimina = raiz;
+	if(raiz == NULL)		// No hay nodos en la lista
+	{
+		printf("No hay nada que elliminar");
+		return;				//  Se acabó!
+	}
+	dato = elimina->info;	//  Preservo el dato del nodo a eliminar
+	raiz = raiz->sig;		//  Se saca de la lista el nodo a liminar
+	free(elimina);			// Liberamos memoria
+	return dato;
+}
 
 char remueve() 
 {
@@ -107,7 +120,7 @@ char remueve()
 	if(elimina->sig == NULL)
 	{
 		dato = elimina->info;	//  Preservo el dato del nodo a eliminar
-		raiz = NULL;			//  Se vuelve lista vacía
+		raiz = raiz->sig;			//  Se vuelve lista vacía
 		free(elimina);			// Liberamos memoria
 		return dato;
 	}
@@ -123,7 +136,34 @@ char remueve()
 	return dato;
 }
 
-char remueven(int pos) {}
+char remueven(int pos) 
+{
+	nodo *anterior, *elimina;
+	char dato;
+	anterior = elimina = raiz;
+	if(raiz == NULL)		// No hay nodos en la lista
+	{
+		printf("No hay nada que elliminar");
+		return;				//  Se acabó!
+	}
+	if(elimina->sig == NULL)
+	{
+		dato = elimina->info;	//  Preservo el dato del nodo a eliminar
+		raiz = raiz->sig;			//  Se vuelve lista vacía
+		free(elimina);			// Liberamos memoria
+		return dato;
+	}
+	elimina = elimina->sig;
+	while( elimina->sig != NULL )
+	{
+		elimina = elimina->sig;		//  avanzo elimina al siguiente nodo
+		anterior = anterior->sig;	//  avanzo anterior al siguiente nodo
+	}
+	dato = elimina->info;	//  Preservo el dato del nodo a eliminar
+	anterior->sig = NULL;			//  Se vuelve el ultimo nodo
+	free(elimina);			// Liberamos memoria
+	return dato;
+}
 
 void imprimeLista()
 {
@@ -141,14 +181,13 @@ int main()
 {
 	insert('a');
 	insert('b');
-	remueve();
 	insert('c');
 	insert('d');
 	insert('e');
 	imprimeLista();
 
-	remueve();
-
+	remueve1();
+	remueve1();
 	imprimeLista();
 
 	system("pause");

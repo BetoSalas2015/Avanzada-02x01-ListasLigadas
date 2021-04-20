@@ -4,8 +4,8 @@
 
 struct Nodo 
 { 
-	char info; 
-	struct Nodo *sig;
+	char info; // 1b
+	struct Nodo *sig;  // 4b
 };
 
 typedef struct Nodo nodo;
@@ -99,7 +99,7 @@ char remueve1()
 	if(raiz == NULL)		// No hay nodos en la lista
 	{
 		printf("No hay nada que elliminar");
-		return;				//  Se acabó!
+		return dato;				//  Se acabó!
 	}
 	dato = elimina->info;	//  Preservo el dato del nodo a eliminar
 	raiz = raiz->sig;		//  Se saca de la lista el nodo a liminar
@@ -110,12 +110,12 @@ char remueve1()
 char remueve() 
 {
 	nodo *anterior, *elimina;
-	char dato;
+	char dato = '\0';
 	anterior = elimina = raiz;
 	if(raiz == NULL)		// No hay nodos en la lista
 	{
 		printf("No hay nada que elliminar");
-		return;				//  Se acabó!
+		return dato;				//  Se acabó!
 	}
 	if(elimina->sig == NULL)
 	{
@@ -140,12 +140,12 @@ char remueven(int pos)
 {
 	nodo *anterior, *elimina;
 	int cont;
-	char dato;
+	char dato = '\0';
 	anterior = elimina = raiz;
 	if(raiz == NULL)		// No hay nodos en la lista
 	{
 		printf("No hay nada que elliminar");
-		return;				//  Se acabó!
+		return dato;				//  Se acabó!
 	}
 	if(pos == 1)
 	{
@@ -179,26 +179,79 @@ void imprimeLista(nodo *raiz)
 	printf("\n");
 }
 
-void invierte() 
+void invierte(nodo *raiz) 
 {
 	nodo *raiz2 = NULL;
-	//  inviertan la lista
+	// 1. recorre la lista 1
+	nodo *recorre = raiz;		// apuntamos ultimo al primer nodo
+	while( !recorre == NULL )	// Repetir MIENTRAS no sea null
+	{
+		nodo *nuevo = NULL;				// creamos un apuntador auxiliar para la nueva area de memoria
+		nuevo = (nodo *) malloc( sizeof( nodo ) );		// creamos un nodo nuevo
+		nuevo->info = recorre->info;				// 3. Copia el contenido.
+		// 2. Creamos el nodo en la lista2 delante de raiz
+		nuevo->sig = raiz2;				//  nuevo se coloca en el primer lugar de la lista
+		raiz2 = nuevo;				// apuntamos raiz al nuevo nodo creado
+		recorre = recorre->sig;
+	}
+	imprimeLista(raiz2);
+}
+
+void concat(nodo *raiz1, nodo *raiz2) 
+{
+	nodo *raiz3 = NULL;			// Necesitamos una tercera lista donde guardar la concatenación
+	nodo *nuevo;				//  Apuntador para sostener el nuevo nodo
+	nodo *ultimo = raiz3;		// Nos posicionamos en el ultimo nodo de la lista3 (no existe ahorita)
+	//  1 Ciclo que recorre la lista 1
+	nodo *recorre = raiz1;		// apuntamos ultimo al primer nodo de lista 1		
+	while( !recorre == NULL )	// Repetir MIENTRAS no sea null en la lista 1
+	{
+		if(raiz1 == NULL)				// Hay nodo que copiar?
+		{
+			break;						//  No. continua al sigueite ciclo
+		}
+		//agregar el if aqui
+		nuevo = (nodo *) malloc( sizeof( nodo ) );		// creamos un nodo nuevo
+		nuevo -> sig = NULL;		// Volvemos el apuntador nuevo el ultimo nodo
+		ultimo->sig = nuevo;		// El ultimo nodo se vuelve el penultimo
+		ultimo = ultimo->sig;		// Ultimo se dirige al ultimo nodo
+		recorre = recorre->sig;		// avanzamos al siguiente nodo a copiar
+	}	
+	// 2. Ciclo que recorre la lista2
+	recorre = raiz2;		// apuntamos ultimo al primer nodo
+	while( !recorre == NULL )	// Repetir MIENTRAS no sea null
+	{
+		if(raiz1 == NULL)				// Hay nodo que copiar
+		{
+			return;						//  No, se acabó!
+		}
+		nuevo = (nodo *) malloc( sizeof( nodo ) );		// creamos un nodo nuevo
+		nuevo -> sig = NULL;		// Volvemos el apuntador nuevo el ultimo nodo
+		ultimo->sig = nuevo;		// El ultimo nodo se vuelve el penultimo
+		ultimo = ultimo->sig;		// Ultimo se dirige al ultimo nodo
+		recorre = recorre->sig;		// avanzamos al siguiente nodo a copiar
+		recorre = recorre->sig;
+	}
+	imprimeLista(raiz3);
+}
+
+void copy(nodo *raiz) 
+{
+	nodo *raiz2 = NULL;
+	//  copiar  la lista en raiz2
 	imprimeLista(raiz2);
 }
 
 int main()
 {
+	nodo *raiz2 = NULL;
 	insert('a');
 	insert('b');
 	insert('c');
 	insert('d');
 	insert('e');
-	imprimeLista(raiz);
+	concat(raiz,raiz2);
 
-	remueven(5);
-	imprimeLista(raiz);
-
-	invierte();
 	system("pause");
 	return 0;
 }
